@@ -1,0 +1,9 @@
+tests/test_bam_input.py
+outputs/tmp
+*pyc
+umi-scgpt
+data
+docs
+models
+.DS_Store
+README_refactor.md

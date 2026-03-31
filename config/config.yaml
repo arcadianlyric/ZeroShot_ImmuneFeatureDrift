@@ -1,0 +1,59 @@
+# Immune-Drift-Zero Pipeline Configuration
+# ==========================================
+
+# Input data source (choose ONE):
+# Option 1: In-house count table (recommended)
+count_table: null  # e.g., "data/chr22_gencode_counts.txt"
+count_format: "auto"  # auto | featurecounts | csv
+
+# Option 2: Raw stLFR FASTQ manifest
+fastq_manifest: null  # e.g., "data/manifest.csv" (columns: sample_id, fastq_r1, fastq_r2)
+
+# Option 3: Pre-computed per-sample CSVs
+data_dir: "data/mock"  # Directory with sample_*.csv files
+
+# Sample ID mapping (for featureCounts column names -> sample IDs)
+# Set to null for auto-detection (strips path + .bam suffix)
+sample_id_map: null
+# Example:
+# sample_id_map:
+#   "data/2024.bam": "2024"
+#   "data/2025.bam": "2025"
+#   "data/2026.bam": "2026"
+
+# Output
+output_dir: "outputs"
+
+# Reference (for stLFR FASTQ preprocessing only)
+reference_genome: "data/references/GRCh38.latest.fa"
+gtf_file: "data/gencode.v49.annotation.gtf"
+aligner: "hisat2"  # hisat2 | star
+threads: 8
+
+# QC parameters
+qc:
+  method: "isolation_forest"  # isolation_forest | autoencoder
+  contamination: 0.1  # Expected outlier fraction
+  random_state: 42
+
+# Feature extraction
+features:
+  min_count: 1  # Drop genes with total count < min_count
+
+# scGPT embedding
+scgpt:
+  model_dir: "models/scgpt_human_blood"
+  max_genes: 2000  # Top N genes by expression for embedding
+
+# CIBERSORTx
+cibersort:
+  # After generating mixture file, upload to https://cibersortx.stanford.edu/
+  # or run local binary, then place results at:
+  results_file: null  # e.g., "outputs/cibersort/CIBERSORTx_Results.txt"
+  use_mock: true  # Set to false when real CIBERSORTx results are available
+
+# Evaluation / Benchmarking
+evaluation:
+  run_benchmark: false
+  pca_baseline: true  # Compare scGPT drift vs PCA-based drift
+  bootstrap_n: 1000  # Bootstrap iterations for confidence intervals
