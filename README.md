@@ -16,21 +16,21 @@
 
 #### 1.2 Key Quantitative Results
 
-**Iteration10 — Real scGPT-blood on PBMC Data:**
+**Iteration10 — Demo scGPT-blood on PBMC Data:**
 
 | Metric | Value |
 |---|---|
-| Timepoints | 3 (2024–2026; 2024 = real chr1-PTPRC, 2025/2026 = simulated drift) |
+| Timepoints | 3 (2024–2026; 2024 = chr1-PTPRC, 2025/2026 = simulated drift) |
 | Genes per sample | 1420–1509 (after QC filtering) |
 | Genes matched to scGPT vocab | 559–606 / 1462 |
 | QC outlier fraction | 9.8–10.1% |
-| **Real scGPT** cosine similarity (adjacent years) | 0.999997–0.999999 |
-| **Real scGPT** Euclidean drift | 0.039–0.059 per year |
+| **Demo scGPT** cosine similarity (adjacent years) | 0.999997–0.999999 |
+| **Demo scGPT** Euclidean drift | 0.039–0.059 per year |
 | **Mock scGPT** cosine similarity | 1.000000–0.999997 |
 | **Mock scGPT** Euclidean drift | 0.013–0.042 per year |
 | **PCA baseline** cosine similarity | 0.652 / -0.883 (unstable with 3 samples) |
 
-> **Interpretation:** Real scGPT-blood embeddings show higher sensitivity to temporal drift (Euclidean 0.039–0.059) compared to random-weight MockScGPT (0.013–0.042), while both maintain near-perfect cosine similarity (>0.9999) reflecting individual immune stability. PCA is unstable with N=3 samples. The real model's 12-layer Transformer captures richer gene-gene interaction patterns from 10.3M pre-trained cells.
+> **Interpretation:** Real scGPT-blood embeddings show higher sensitivity to temporal drift (Euclidean 0.039–0.059) compared to random-weight MockScGPT (0.013–0.042), while both maintain near-perfect cosine similarity (>0.9999) reflecting individual immune stability. PCA is unstable with N=3 samples. The model's 12-layer Transformer captures richer gene-gene interaction patterns from 10.3M pre-trained cells.
 
 ---
 
@@ -280,7 +280,7 @@ python src/evaluation.py \
 | Snakemake Workflow | ✅ New | `Snakefile` + `config/config.yaml` for reproducible orchestration |
 | Evaluation Framework | ✅ New | `src/evaluation.py` — QC benchmark, scGPT vs PCA, drift significance |
 
-> **Iteration10 test:** Dummy PBMC count table (`data/gencode_counts.txt`, 1509 genes) used as 2024 baseline; 2025/2026 generated via biologically plausible temporal simulation (Poisson resampling + log-normal drift). **Real scGPT-blood model** (149MB, 12-layer Transformer, 36574-gene vocab) loaded and tested: 606 genes matched vocab, producing meaningful 512-dim embeddings. See `outputs/iteration10/`.
+> **Iteration10 test:** Dummy PBMC count table (`data/gencode_counts.txt`, 1509 genes) used as 2024 baseline; 2025/2026 generated via biologically plausible temporal simulation (Poisson resampling + log-normal drift). **Demo scGPT-blood model** (149MB, 12-layer Transformer, 36574-gene vocab) loaded and tested: 606 genes matched vocab, producing meaningful 512-dim embeddings. See `outputs/iteration10/`.
 
 ---
 
